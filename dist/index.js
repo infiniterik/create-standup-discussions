@@ -406,6 +406,7 @@ function listToArray(list) {
 const main = async () => {
   const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
   const template = core.getInput("filename") || "./.github/STANDUP_TEMPLATE.md";
+  const label = core.getInput("label") || "Standup";
   const organization = core.getInput("organization", { required: true });
   const teams = listToArray(core.getInput("team_slugs", { required: true }));
 
@@ -417,7 +418,7 @@ const main = async () => {
     const discussion = await octokit.teams.createDiscussionInOrg({
       org: organization,
       team_slug: team,
-      title: `Standup (${date})`,
+      title: `${label} (${date})`,
       body: content
     });
 
